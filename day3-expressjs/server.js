@@ -2,11 +2,11 @@ const express  = require("express");
 
 
 const app = express();
-let users = [{
+let users = [
   // name:"Raj",
   // age:22,
   // branch:"CS"
-}];
+];
 
 app.use(express.json());
 
@@ -28,16 +28,35 @@ app.get("/", (rea,res) => {
 
 
 // delete
-app.delete("/delete/:id",(req,res) => {
+// app.delete("/delete/:id",(req,res) => {
+//   let id = Number(req.params.id);
+
+//   let userData = users.filter((val) => val.id !== id);
+
+//   users = userData;
+//   res.send(userData);
+// })
+app.delete("/delete/:id", (req, res) => {
   let {id} = req.params;
 
   let userData = users.filter((val) => val.id !== id);
-
+  console.log(userData)
   users = userData;
-  res.send(users);
+
+  res.send(userData);
+});
+
+//update
+app.put("/update/:id", (req,res) => {
+  let {id} = req.params;
+  let {name,branch} = req.body;
+
+  let updatedUser = users.map((val) => 
+  val.id === id ? {...val, name, branch }:val);
+  res.send(updatedUser);
 })
 
-let port = 3002;
+let port = 3007;
 
 app.listen(port, (req,res) => {
   console.log(`server is running on ${port} `)
